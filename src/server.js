@@ -6,12 +6,15 @@ import bodyParser from "body-parser";
 const articlesInfo = {
   "learn-react": {
     upvotes: 0,
+    coments: [],
   },
   "learn-node": {
     upvotes: 0,
+    coments: [],
   },
   "my-thoughts-on-resumes": {
     upvotes: 0,
+    coments: [],
   },
 };
 
@@ -46,5 +49,16 @@ app.post("/api/articles/:name/upvote", (req, res) => {
     );
 });
 
-// start the backend-server
+//new endpoint for comments on POST
+app.post("/api/articles/:name/add-comment", (req, res) => {
+  const { username, text } = req.body;
+  const articleName = req.params.name;
+
+  articlesInfo[articleName].coments.push({ username, text });
+
+  res.status(200).send(articlesInfo[articleName]);
+});
+
+// starting the backend-server
+// message just to double-check
 app.listen(8000, () => console.log("Listening on Port 8000"));
