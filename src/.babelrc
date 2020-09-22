@@ -1,0 +1,4 @@
+// this is intented to tell node-backend how to understand ES6
+{
+  "presets": ["@babel/preset-env"]
+}
