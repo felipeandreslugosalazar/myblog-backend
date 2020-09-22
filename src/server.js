@@ -35,7 +35,7 @@ app.get("/test", (req, res) =>
 //   res.send(`Hello ${req.body.name} ${req.body.last} !`)
 // );
 
-// new endpoint
+// new endpoint to vote on a article
 app.post("/api/articles/:name/upvote", (req, res) => {
   const articleName = req.params.name;
   articlesInfo[articleName].upvotes += 1;
