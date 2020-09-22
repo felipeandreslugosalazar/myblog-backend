@@ -62,3 +62,5 @@ app.post("/api/articles/:name/add-comment", (req, res) => {
 // starting the backend-server
 // message just to double-check
 app.listen(8000, () => console.log("Listening on Port 8000"));
+
+//now we need to persit the data, how ? MongoDB is your friend!
