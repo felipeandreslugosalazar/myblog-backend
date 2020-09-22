@@ -11,6 +11,7 @@ app.use(bodyParser.json());
 // endpoint for hello
 // GET
 app.get("/hello", (req, res) => res.send("Hello get!"));
+app.get("/hello/:name", (req, res) => res.send(`Hello ${req.params.name}!`));
 // POST
 // app.post("/hello", (req, res) => res.send("POST"));
 app.post("/hello", (req, res) => res.send(`Hello ${req.body.name} ${req.body.last} !`));
