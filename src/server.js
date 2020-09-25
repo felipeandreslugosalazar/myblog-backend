@@ -66,3 +66,24 @@ app.listen(8000, () => console.log("Listening on Port 8000"));
 
 //now we need to persit the data, how ? MongoDB is your friend!
 //MongoDB installed using Brew and instructions for WSL.
+
+//datase my-blog created in mongoDB under /data/db
+// with
+
+// db.articles.insert([
+//   {
+//     name: "learn-react",
+//     upvotes: 0,
+//     coments: [],
+//   },
+//   {
+//     name: "learn-node",
+//     upvotes: 0,
+//     coments: [],
+//   },
+//   {
+//     name: "my-thoughts-on-resumes",
+//     upvotes: 0,
+//     coments: [],
+//   },
+// ]);
