@@ -65,3 +65,4 @@ app.post("/api/articles/:name/add-comment", (req, res) => {
 app.listen(8000, () => console.log("Listening on Port 8000"));
 
 //now we need to persit the data, how ? MongoDB is your friend!
+//MongoDB installed using Brew and instructions for WSL.
