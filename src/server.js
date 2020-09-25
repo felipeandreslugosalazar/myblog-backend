@@ -1,45 +1,22 @@
 import express from "express";
-
 // for the post we need and extra module
 import bodyParser from "body-parser";
-
-// fake database (not persistent I imagine)
-const articlesInfo = {
-  "learn-react": {
-    upvotes: 0,
-    coments: [],
-  },
-  "learn-node": {
-    upvotes: 0,
-    coments: [],
-  },
-  "my-thoughts-on-resumes": {
-    upvotes: 0,
-    coments: [],
-  },
-};
+// to be able to use mongodb (npm)
+import { MongoClient, MongoCLient } from "mongodb";
 
 //  we create our backend app like this
 const app = express();
-
 // parses the json
 app.use(bodyParser.json());
 
-// endpoint for hello
+// endpoint for '/' --> HOME
 app.get("/", (req, res) => res.send("HOME"));
+// endpoint for '/test' --> message
 app.get("/test", (req, res) =>
   res.send("Tulio estamos al aire (lease con voz de Juanin) !")
 );
-// GET
-// app.get("/hello", (req, res) => res.send("Hello get!"));
-// app.get("/hello/:name", (req, res) => res.send(`Hello ${req.params.name}!`));
-// POST
-// app.post("/hello", (req, res) => res.send("POST"));
-// app.post("/hello", (req, res) =>
-//   res.send(`Hello ${req.body.name} ${req.body.last} !`)
-// );
 
-// new endpoint to vote on a article
+// new endpoint to vote on a article USING FAKE DATA BASE
 app.post("/api/articles/:name/upvote", (req, res) => {
   const articleName = req.params.name;
   articlesInfo[articleName].upvotes += 1;
@@ -50,7 +27,7 @@ app.post("/api/articles/:name/upvote", (req, res) => {
     );
 });
 
-//new endpoint for comments on POST
+//new POST endpoint for adding comments USING FAKE DATA BASE
 app.post("/api/articles/:name/add-comment", (req, res) => {
   const { username, text } = req.body;
   const articleName = req.params.name;
@@ -58,6 +35,29 @@ app.post("/api/articles/:name/add-comment", (req, res) => {
   articlesInfo[articleName].coments.push({ username, text });
 
   res.status(200).send(articlesInfo[articleName]);
+});
+
+// new route to CONNECTING MONGODB + EXPRESS
+app.get("/api/articles/:name", async (req, res) => {
+  try {
+    const articleName = req.params.name;
+
+    const client = await MongoClient.connect("mongodb://localhost:27017/", {
+      useNewUrlParser: true,
+    });
+
+    const db = client.db("my-blog");
+
+    const articleInfo = await db
+      .collection("articles")
+      .findOne({ name: articleName });
+
+    res.status(200).json(articleInfo);
+    client.close();
+
+  } catch (error) {
+    res.status(500).json({ message: "Error connecting to db", error });
+  }
 });
 
 // starting the backend-server
